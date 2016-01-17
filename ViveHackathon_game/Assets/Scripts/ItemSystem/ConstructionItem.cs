@@ -9,6 +9,13 @@ public class ConstructionItem : BaseItem {
 
     public List<ProximityItemConnectionPoint> connectionPointList;
 
+    public ProximityItemConnectionPoint potentialConnection;
+
+    public bool isHeld = false;
+
+    public bool seekingConnections = false;
+    public bool canConnect = false;
+
     protected override void Start() {
         base.Start();
 
