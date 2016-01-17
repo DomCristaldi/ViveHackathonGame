@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class ItemConnectionPoint : MonoBehaviour {
 
     public enum ConnectionType {
+        bidirectional,
         root,
         extension,
     }
@@ -15,8 +16,14 @@ public class ItemConnectionPoint : MonoBehaviour {
 
     public ConnectionType thisConnectionType;
 
+    public bool isConnected = false;
+
+    protected virtual void Awake() {
+
+    }
+
 	// Use this for initialization
-	void Start () {
+	protected virtual void Start () {
 	    if (thisConnectionType == ConnectionType.root) {
             foreach (ItemConnectionPoint connector in extensionConnectorList) {
                 connector.ConnectToRoot();
@@ -25,16 +32,32 @@ public class ItemConnectionPoint : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	protected virtual void Update () {
 	
 	}
 
     public void ConnectToRoot() {
+        ConnectToSuppliedPoint(rootConnector);
+
+        /*
         Vector3 connectionDistanceVec = connectedObject.position - transform.position;
         connectedObject.position = rootConnector.transform.position + connectionDistanceVec;
 
 
         connectedObject.parent = rootConnector.connectedObject;
+        */
+    }
+
+    public virtual void ConnectToSuppliedPoint(ItemConnectionPoint otherPoint) {
+
+
+        Vector3 connectionDistanceVec = connectedObject.position - transform.position;
+        connectedObject.position = otherPoint.transform.position + connectionDistanceVec;
+
+        //connectedObject.rotation = 
+
+        connectedObject.parent = otherPoint.connectedObject.transform;
+
     }
 
 }
