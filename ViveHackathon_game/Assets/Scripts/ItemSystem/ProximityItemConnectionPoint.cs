@@ -5,6 +5,8 @@ public class ProximityItemConnectionPoint : ItemConnectionPoint {
 
     MeshRenderer meshRender;
 
+    Collider physicalCollider;
+
     void OnTriggerEnter(Collider other) {
 
         ProximityItemConnectionPoint otherPoint = other.GetComponent<ProximityItemConnectionPoint>();
@@ -25,7 +27,11 @@ public class ProximityItemConnectionPoint : ItemConnectionPoint {
     protected override void Awake() {
         //base.Awake();
 
-        meshRender = GetComponent<MeshRenderer>();
+        meshRender = transform.parent.GetComponent<MeshRenderer>();
+
+        physicalCollider = GetComponent<Collider>();
+
+        connectedObject = transform.root;
     }
 
     protected override void Start() {
@@ -37,7 +43,17 @@ public class ProximityItemConnectionPoint : ItemConnectionPoint {
     }
 
     public override bool ConnectToSuppliedPoint(ItemConnectionPoint otherPoint) {
+        physicalCollider.enabled = false;
+
         return base.ConnectToSuppliedPoint(otherPoint);
+
+    }
+
+    public override void DisconnectFromPoint() {
+
+        base.DisconnectFromPoint();
+
+        physicalCollider.enabled = true;
     }
 
 }
