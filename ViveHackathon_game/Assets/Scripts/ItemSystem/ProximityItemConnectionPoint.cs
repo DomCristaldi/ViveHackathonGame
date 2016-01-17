@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ProximityItemConnectionPoint : ItemConnectionPoint {
 
+    MeshRenderer meshRender;
+
     void OnTriggerEnter(Collider other) {
 
         ProximityItemConnectionPoint otherPoint = other.GetComponent<ProximityItemConnectionPoint>();
@@ -15,12 +17,15 @@ public class ProximityItemConnectionPoint : ItemConnectionPoint {
 
         if (otherPoint != false) {
             ConnectToSuppliedPoint(otherPoint);
+            
         }
     }
 
 
     protected override void Awake() {
         //base.Awake();
+
+        meshRender = GetComponent<MeshRenderer>();
     }
 
     protected override void Start() {
@@ -31,6 +36,8 @@ public class ProximityItemConnectionPoint : ItemConnectionPoint {
         //base.Update();
     }
 
-
+    public override bool ConnectToSuppliedPoint(ItemConnectionPoint otherPoint) {
+        return base.ConnectToSuppliedPoint(otherPoint);
+    }
 
 }

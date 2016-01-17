@@ -16,6 +16,8 @@ public class ItemConnectionPoint : MonoBehaviour {
 
     public ConnectionType thisConnectionType;
 
+
+    public bool canConnect = true;
     public bool isConnected = false;
 
     protected virtual void Awake() {
@@ -48,7 +50,9 @@ public class ItemConnectionPoint : MonoBehaviour {
         */
     }
 
-    public virtual void ConnectToSuppliedPoint(ItemConnectionPoint otherPoint) {
+    public virtual bool ConnectToSuppliedPoint(ItemConnectionPoint otherPoint) {
+
+        if (otherPoint.canConnect == false || otherPoint.isConnected == true) { return false; }
 
 
         Vector3 connectionDistanceVec = connectedObject.position - transform.position;
@@ -58,6 +62,11 @@ public class ItemConnectionPoint : MonoBehaviour {
 
         connectedObject.parent = otherPoint.connectedObject.transform;
 
+        return true;
+    }
+
+    public virtual void DisconnectFromPoint() {
+        connectedObject.parent = null;
     }
 
 }
