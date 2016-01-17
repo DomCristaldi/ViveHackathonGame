@@ -43,15 +43,30 @@ public class ProximityItemConnectionPoint : ItemConnectionPoint {
     }
 
     public override bool ConnectToSuppliedPoint(ItemConnectionPoint otherPoint) {
-        physicalCollider.enabled = false;
 
-        return base.ConnectToSuppliedPoint(otherPoint);
+
+
+        bool result = base.ConnectToSuppliedPoint(otherPoint);
+
+        if (result == true) {
+            physicalCollider.enabled = false;
+
+            otherPoint.connectedObject.GetComponent<ConstructionItem>().childConstructList.Add(this.connectedObject.GetComponent<ConstructionItem>());
+            this.connectedObject.GetComponent<ConstructionItem>().parentConstruct = otherPoint.connectedObject.GetComponent<ConstructionItem>();
+
+            return true;
+        }
+        return false;
 
     }
 
     public override void DisconnectFromPoint() {
 
         base.DisconnectFromPoint();
+
+        foreach (ConstructionItem cItem in connectedObject.GetComponent<ConstructionItem>().childConstructList) {
+            cItem.transform.parent = null;
+        }
 
         physicalCollider.enabled = true;
     }
