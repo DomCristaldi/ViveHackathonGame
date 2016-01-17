@@ -24,3 +24,14 @@ ExportedObj/
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+
+
+Library/*
+Temp/*
+Builds/*
+obj/*
+*.DS_Store
+*Keyboard.meta
+Thumbs.db
+Thumbs.db.meta
+.mayaSwatches
